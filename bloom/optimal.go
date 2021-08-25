@@ -1,4 +1,4 @@
-package main
+package bloom
 
 import (
 	"githut.com/snailmann/goutil/number"
@@ -31,4 +31,16 @@ func OptimalFpp(n uint32, m uint32, k uint32) float64 {
 // c = m / n
 func BitsOfElement(n uint32, m uint32) float64 {
 	return float64(m / n)
+}
+
+func BitCount(bytes []byte) uint32 {
+	var c uint32 = 0
+	for _, b := range bytes {
+		a := b
+		for a != 0 {
+			a &= (a - 1)
+			c++
+		}
+	}
+	return c
 }
