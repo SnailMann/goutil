@@ -1,4 +1,4 @@
-module githut.com/snailmann/goutil
+module githut.com/SnailMann/goutil
 
 go 1.16
 
