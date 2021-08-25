@@ -1,6 +1,6 @@
 package collection
 
-// Copy a map
+// Copy map
 func CopyMap(m map[string]interface{}) map[string]interface{} {
 	cp := make(map[string]interface{})
 	for k, v := range m {
