@@ -21,7 +21,6 @@ type Filter struct {
 func (f *Filter) Add(bs []byte) {
 	f.lock.Lock()
 	defer f.lock.Unlock()
-
 	indexs := hashes(&f.hashes, bs, f.m)
 	for _, index := range indexs {
 		var bits = f.bytes[index/8]
@@ -33,7 +32,6 @@ func (f *Filter) Add(bs []byte) {
 func (f *Filter) Contain(bs []byte) bool {
 	f.lock.RLock()
 	defer f.lock.RUnlock()
-
 	indexs := hashes(&f.hashes, bs, f.m)
 	for _, index := range indexs {
 		var bits = f.bytes[index/8]
