@@ -1,0 +1,44 @@
+package group
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"runtime/debug"
+	"sync"
+)
+
+type Group struct {
+	wg  sync.WaitGroup
+	err error
+}
+
+func NewGroup() Group {
+	return Group{}
+}
+
+func (g *Group) Wait() error {
+	g.wg.Wait()
+	if g.err != nil {
+		return g.err
+	}
+	return nil
+}
+
+func (g *Group) Go(ctx context.Context, f func() error) {
+	g.wg.Add(1)
+	go func() {
+		var err error
+		defer func() {
+			if err1 := recover(); err1 != nil {
+				fmt.Printf("panic: %v, stack: %v", err1, string(debug.Stack()))
+				err = errors.New(fmt.Sprintf("panic: %v", err1))
+			}
+			if err != nil {
+				g.err = err
+			}
+			g.wg.Done()
+		}()
+		err = f()
+	}()
+}
